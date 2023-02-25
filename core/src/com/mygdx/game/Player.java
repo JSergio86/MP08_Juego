@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 
@@ -34,8 +35,12 @@ public class Player extends Actor {
             float touchX = input.getX();
             float touchY = input.getY();
 
+            // Convierte la posición del toque a unidades de juego
+            float gameHeight = 800;
+            float touchYInGame = touchY / Gdx.graphics.getHeight() * gameHeight;
+
             // Mueve la imagen del coche hacia arriba o hacia abajo
-            if (touchY < 300) {
+            if (touchYInGame < gameHeight / 2) {
                 moveBy(0, 5);
             } else {
                 moveBy(0, -5);

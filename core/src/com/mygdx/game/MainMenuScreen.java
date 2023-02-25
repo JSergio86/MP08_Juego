@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenuScreen implements Screen {
-    final Bird game;
+    final Coche game;
     OrthographicCamera camera;
-    public MainMenuScreen(final Bird gam) {
+    public MainMenuScreen(final Coche gam) {
         game = gam;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);

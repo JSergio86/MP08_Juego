@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-public class Bird extends Game {
+public class Coche extends Game {
     SpriteBatch batch;
     BitmapFont smallFont, bigFont;
     AssetManager manager;
@@ -20,13 +20,11 @@ public class Bird extends Game {
     public void create() {
         manager = new AssetManager();
         manager.load("coche.png", Texture.class);
-        manager.load("pipe_up.png", Texture.class);
-        manager.load("pipe_down.png", Texture.class);
         manager.load("coche_amarillo.png", Texture.class);
         manager.load("obstaculo.png", Texture.class);
-
         manager.load("background.png", Texture.class);
         manager.load("flap.wav", Sound.class);
+        manager.load("subirnivel.wav", Sound.class);
         manager.load("fail.wav", Sound.class);
         manager.finishLoading();
         batch = new SpriteBatch();

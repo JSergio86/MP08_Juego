@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Pipe extends Actor {
+public class Obstaculos extends Actor {
     Rectangle bounds;
     boolean upsideDown;
     AssetManager manager;
     boolean scoreAdded;
 
-    Pipe(){
+    Obstaculos(){
         setSize(58, 84);
         bounds = new Rectangle();
         setVisible(false);

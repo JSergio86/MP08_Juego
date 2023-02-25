@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -11,21 +12,28 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
-
 import java.util.Iterator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
+
+
+
 
 public class GameScreen implements Screen {
-    final Bird game;
+    final Coche game;
     OrthographicCamera camera;
     Stage stage;
     Player player;
     boolean dead;
-    Array<Pipe> obstacles;
+    Array<Obstaculos> obstacles;
     long lastObstacleTime;
     float score;
     int nivel;
+    int velocidadObstaculos;
 
-    public GameScreen(final Bird gam) {
+
+
+    public GameScreen(final Coche gam) {
         this.game = gam;
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
@@ -36,17 +44,19 @@ public class GameScreen implements Screen {
         stage.getViewport().setCamera(camera);
         stage.addActor(player);
         // create the obstacles array and spawn the first obstacle
-        obstacles = new Array<Pipe>();
+        obstacles = new Array<Obstaculos>();
         spawnObstacle();
         score = 0;
         nivel=1;
+        velocidadObstaculos = 1500;
+
+
     }
     @Override
     public void render(float delta) {
         boolean dead = false;
 
         // clear the screen with a color
-
         ScreenUtils.clear(0.3f, 0.8f, 0.8f, 1);
         // tell the camera to update its matrices.
         camera.update();
@@ -78,20 +88,23 @@ public class GameScreen implements Screen {
 
         // Comprova que el jugador no es surt de la pantalla.
         // Si surt per la part inferior, game over
-        if (player.getBounds().y > 480 - 45)
-            player.setY( 480 - 45 );
-        if (player.getBounds().y < 0 - 45) {
-            dead = true;
+
+
+        if (player.getBounds().y > 400 - 45) {
+            player.setY(400 - 45);
+        } else if (player.getBounds().y < 70) {
+            player.setY(70);
         }
 
+
         // Comprova si cal generar un obstacle nou
-        if (TimeUtils.nanoTime() - lastObstacleTime > 1500000000)
+        if (TimeUtils.millis() - lastObstacleTime > velocidadObstaculos)
             spawnObstacle();
 
         // Comprova si les tuberies colisionen amb el jugador
-        Iterator<Pipe> iter = obstacles.iterator();
+        Iterator<Obstaculos> iter = obstacles.iterator();
         while (iter.hasNext()) {
-            Pipe pipe = iter.next();
+            Obstaculos pipe = iter.next();
             if (pipe.getBounds().overlaps(player.getBounds())) {
                 dead = true;
             }
@@ -100,16 +113,16 @@ public class GameScreen implements Screen {
         // Treure de l'array les tuberies que estan fora de pantalla
         iter = obstacles.iterator();
         while (iter.hasNext()) {
-            Pipe pipe = iter.next();
-            if(player.getX() > pipe.getX() && pipe.upsideDown && pipe.scoreAdded == false ){
+            Obstaculos obstaculos = iter.next();
+            if(player.getX() > obstaculos.getX() && obstaculos.upsideDown && obstaculos.scoreAdded == false ){
                 //La puntuació augmenta amb el temps de joc
                 score += 1;
                 nivel++;
-                pipe.scoreAdded=true;
+                obstaculos.scoreAdded=true;
             }
 
-            if (pipe.getX() < -64) {
-                obstacles.removeValue(pipe, true);
+            if (obstaculos.getX() < -64) {
+                obstacles.removeValue(obstaculos, true);
             }
         }
 
@@ -125,28 +138,21 @@ public class GameScreen implements Screen {
     }
 
     private void spawnObstacle() {
-        // Calcula la alçada de l'obstacle aleatòriament
-        float holey = MathUtils.random(100, 479);
-        // Crea dos obstacles: Una tubería superior i una inferior
-
-        Pipe pipe1 = new Pipe();
-        pipe1.setX(800);
-        pipe1.setY(holey);
-        pipe1.setUpsideDown(true);
-        pipe1.setManager(game.manager);
-        obstacles.add(pipe1);
-        stage.addActor(pipe1);
-
-        /*
-        Pipe pipe2 = new Pipe();
-        pipe2.setX(800);
-        pipe2.setY(holey + 200);
-        pipe2.setUpsideDown(false);
-        pipe2.setManager(game.manager);
-        obstacles.add(pipe2);
-        stage.addActor(pipe2);
-         */
-        lastObstacleTime = TimeUtils.nanoTime();
+        float holey = MathUtils.random(70, 400);
+        Obstaculos obstaculos = new Obstaculos();
+        obstaculos.setX(800);
+        obstaculos.setY(holey);
+        obstaculos.setUpsideDown(true);
+        obstaculos.setManager(game.manager);
+        obstacles.add(obstaculos);
+        stage.addActor(obstaculos);
+        lastObstacleTime = TimeUtils.millis();
+        if(score % 10 ==0 && nivel >= 2){
+         nivel ++;
+         game.manager.get("subirnivel.wav", Sound.class).play();
+         velocidadObstaculos-=100;
+    }
+    // También podrías mostrar una animación o sonido para indicar que se ha subido de nivel
 
     }
 
