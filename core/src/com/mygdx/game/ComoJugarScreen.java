@@ -6,10 +6,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class MainMenuScreen implements Screen {
+public class ComoJugarScreen implements Screen {
     final Coche game;
     OrthographicCamera camera;
-    public MainMenuScreen(final Coche gam) {
+
+    public ComoJugarScreen(final Coche gam) {
         game = gam;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
@@ -20,13 +21,10 @@ public class MainMenuScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(game.manager.get("background.png", Texture.class), 0, 0);
-        game.bigFont.draw(game.batch, "Bienvenido a DriveDash!!!", 15 , 300);
-                game.bigFont.draw(game.batch, "Tap anywhere to begin!",
-                        20, 180);
+        game.batch.draw(game.manager.get("backgroundComoJugar.png", Texture.class), 0, 0);
         game.batch.end();
         if (Gdx.input.justTouched()) {
-            game.setScreen(new ComoJugarScreen(game));
+            game.setScreen(new GameScreen(game));
             dispose();
         }
     }

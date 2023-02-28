@@ -16,8 +16,8 @@ public class Player extends Actor {
     float speedy, gravity;
 
     Player(){
-        setX(200);
-        setY(280 / 2 - 64 / 2);
+        setX(180);
+        setY(200);
         setSize(64,45);
         bounds = new Rectangle();
         speedy = 0;

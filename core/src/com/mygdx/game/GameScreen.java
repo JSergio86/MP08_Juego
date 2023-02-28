@@ -29,7 +29,10 @@ public class GameScreen implements Screen {
     long lastObstacleTime;
     float score;
     int nivel;
-    int velocidadObstaculos;
+    int aparicionObstaculos;
+    float velocidadObstaculos;
+
+
 
 
 
@@ -48,7 +51,8 @@ public class GameScreen implements Screen {
         spawnObstacle();
         score = 0;
         nivel=1;
-        velocidadObstaculos = 1500;
+        aparicionObstaculos = 1500;
+        velocidadObstaculos = 300;
 
 
     }
@@ -98,7 +102,7 @@ public class GameScreen implements Screen {
 
 
         // Comprova si cal generar un obstacle nou
-        if (TimeUtils.millis() - lastObstacleTime > velocidadObstaculos)
+        if (TimeUtils.millis() - lastObstacleTime > aparicionObstaculos)
             spawnObstacle();
 
         // Comprova si les tuberies colisionen amb el jugador
@@ -138,20 +142,22 @@ public class GameScreen implements Screen {
     }
 
     private void spawnObstacle() {
-        float holey = MathUtils.random(70, 400);
+        float holey = MathUtils.random(70, 370);
         Obstaculos obstaculos = new Obstaculos();
         obstaculos.setX(800);
         obstaculos.setY(holey);
         obstaculos.setUpsideDown(true);
         obstaculos.setManager(game.manager);
+        obstaculos.velocidad = velocidadObstaculos; // Asignar velocidad actualizada
         obstacles.add(obstaculos);
         stage.addActor(obstaculos);
         lastObstacleTime = TimeUtils.millis();
-        if(score % 10 ==0 && nivel >= 2){
-         nivel ++;
-         game.manager.get("subirnivel.wav", Sound.class).play();
-         velocidadObstaculos-=100;
-    }
+        if(score % 10 == 0 && nivel >= 2){
+            nivel ++;
+            game.manager.get("subirnivel.wav", Sound.class).play();
+            velocidadObstaculos+=100;
+            aparicionObstaculos-=100;
+        }
     // También podrías mostrar una animación o sonido para indicar que se ha subido de nivel
 
     }

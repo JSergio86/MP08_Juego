@@ -11,17 +11,21 @@ public class Obstaculos extends Actor {
     boolean upsideDown;
     AssetManager manager;
     boolean scoreAdded;
+    float velocidad;
+
 
     Obstaculos(){
-        setSize(58, 84);
+        setSize(84, 50);
         bounds = new Rectangle();
         setVisible(false);
         scoreAdded=false;
+        velocidad = 1;
+
     }
 
     @Override
     public void act(float delta) {
-        moveBy(-200 * delta, 0);
+        moveBy(-velocidad * delta, 0);
         bounds.set(getX(), getY(), getWidth(), getHeight());
         if(!isVisible())
             setVisible(true);
