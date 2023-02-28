@@ -31,10 +31,7 @@ public class GameScreen implements Screen {
     int nivel;
     int aparicionObstaculos;
     float velocidadObstaculos;
-
-
-
-
+    int nivelScore;
 
     public GameScreen(final Coche gam) {
         this.game = gam;
@@ -54,6 +51,7 @@ public class GameScreen implements Screen {
         aparicionObstaculos = 1500;
         velocidadObstaculos = 300;
 
+        nivelScore = 10;
 
     }
     @Override
@@ -82,6 +80,10 @@ public class GameScreen implements Screen {
         //HUD
         game.batch.begin();
         game.smallFont.draw(game.batch, "Score: " + (int)score, 10, 470);
+        game.batch.end();
+
+        game.batch.begin();
+        game.smallFont.draw(game.batch, "Nivel: " + (int)nivel, 650, 470);
         game.batch.end();
 
         if (Gdx.input.justTouched()) {
@@ -121,7 +123,6 @@ public class GameScreen implements Screen {
             if(player.getX() > obstaculos.getX() && obstaculos.upsideDown && obstaculos.scoreAdded == false ){
                 //La puntuació augmenta amb el temps de joc
                 score += 1;
-                nivel++;
                 obstaculos.scoreAdded=true;
             }
 
@@ -139,9 +140,18 @@ public class GameScreen implements Screen {
             dispose();
         }
 
+        if(score == nivelScore){
+            nivel ++;
+            nivelScore += 10;
+            game.manager.get("subirnivel.wav", Sound.class).play();
+            velocidadObstaculos+=100;
+            aparicionObstaculos-=100;
+        }
+
     }
 
     private void spawnObstacle() {
+
         float holey = MathUtils.random(70, 370);
         Obstaculos obstaculos = new Obstaculos();
         obstaculos.setX(800);
@@ -152,14 +162,9 @@ public class GameScreen implements Screen {
         obstacles.add(obstaculos);
         stage.addActor(obstaculos);
         lastObstacleTime = TimeUtils.millis();
-        if(score % 10 == 0 && nivel >= 2){
-            nivel ++;
-            game.manager.get("subirnivel.wav", Sound.class).play();
-            velocidadObstaculos+=100;
-            aparicionObstaculos-=100;
-        }
-    // También podrías mostrar una animación o sonido para indicar que se ha subido de nivel
 
+
+        System.out.println(nivel);
     }
 
 

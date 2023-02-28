@@ -19,7 +19,7 @@ public class Obstaculos extends Actor {
         bounds = new Rectangle();
         setVisible(false);
         scoreAdded=false;
-        velocidad = 1;
+        velocidad = 500;
 
     }
 
