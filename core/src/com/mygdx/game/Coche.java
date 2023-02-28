@@ -24,6 +24,7 @@ public class Coche extends Game {
         manager.load("background.png", Texture.class);
         manager.load("backgroundComoJugar.png", Texture.class);
         manager.load("flap.wav", Sound.class);
+        manager.load("carcrash.wav", Sound.class);
         manager.load("subirnivel.wav", Sound.class);
         manager.load("fail.wav", Sound.class);
         manager.finishLoading();

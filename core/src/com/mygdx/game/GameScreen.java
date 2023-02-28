@@ -131,7 +131,7 @@ public class GameScreen implements Screen {
         }
 
         if(dead) {
-            game.manager.get("fail.wav", Sound.class).play();
+            game.manager.get("carcrash.wav", Sound.class).play();
             game.lastScore = (int)score;
             if(game.lastScore > game.topScore)
                 game.topScore = game.lastScore;
