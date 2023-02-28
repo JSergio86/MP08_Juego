@@ -50,7 +50,6 @@ public class GameScreen implements Screen {
         nivel=1;
         aparicionObstaculos = 1500;
         velocidadObstaculos = 300;
-
         nivelScore = 10;
 
     }
@@ -151,7 +150,6 @@ public class GameScreen implements Screen {
     }
 
     private void spawnObstacle() {
-
         float holey = MathUtils.random(70, 370);
         Obstaculos obstaculos = new Obstaculos();
         obstaculos.setX(800);
