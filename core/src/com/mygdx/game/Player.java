@@ -17,7 +17,7 @@ public class Player extends Actor {
 
     Player(){
         setX(180);
-        setY(200);
+        setY(220);
         setSize(64,45);
         bounds = new Rectangle();
         speedy = 0;
